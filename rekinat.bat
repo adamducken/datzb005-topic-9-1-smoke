@@ -20,7 +20,7 @@ if "!operation!"=="2" set /a "result=first*first"
 if not defined result goto invalid_operation
 
 set "expression=!first!!operation!!second!"
-if "!operation!"=="2" set "expression=!first!^2"
+if "!operation!"=="2" set "expression=!first!^^2"
 echo Rezultats:
 echo !expression!=!result!
 >>"%~dp0log.txt" echo !expression!=!result!
