@@ -34,6 +34,7 @@ call :reject "" 4 "+" "Kluda: ievadiet divus veselus skaitlus" || goto fail
 call :reject 3 abc "+" "Kluda: ievadiet divus veselus skaitlus" || goto fail
 call :reject 3 "1+2" "+" "Kluda: ievadiet divus veselus skaitlus" || goto fail
 call :reject 2147483648 0 "+" "Kluda: ievadiet divus veselus skaitlus" || goto fail
+call :reject -2147483649 0 "+" "Kluda: ievadiet divus veselus skaitlus" || goto fail
 
 rem Drive the real menu: invalid numbers, invalid choices, repeat, then exit.
 >input.txt (

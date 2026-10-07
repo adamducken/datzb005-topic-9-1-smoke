@@ -74,6 +74,11 @@ if not "!digits:~10,1!"=="" exit /b 1
 set "limit=2147483647"
 if defined sign set "limit=2147483648"
 if not "!digits:~9,1!"=="" if "!digits!" gtr "!limit!" exit /b 1
+rem SET /A rejects the positive literal 2147483648, even after unary minus.
+if "!sign!!digits!"=="-2147483648" (
+    set /a "%~1=-2147483647-1" >nul
+    exit /b 0
+)
 set /a "%~1=!sign!!digits!" >nul 2>&1
 exit /b !errorlevel!
 
