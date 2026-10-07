@@ -60,7 +60,7 @@ if "!digits:~0,1!"=="-" (
 )
 if not defined digits exit /b 1
 set "invalid=!digits!"
-for %%D in (0 1 2 3 4 5 6 7 8 9) do set "invalid=!invalid:%%D=!"
+for %%D in (0 1 2 3 4 5 6 7 8 9) do if defined invalid set "invalid=!invalid:%%D=!"
 if defined invalid exit /b 1
 
 :trim_zero

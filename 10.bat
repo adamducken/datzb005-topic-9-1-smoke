@@ -51,7 +51,7 @@ set /p "%~1=%~2"
 set "digits=!%~1!"
 if "!digits:~0,1!"=="-" set "digits=!digits:~1!"
 if not defined digits goto bad_number
-for %%D in (0 1 2 3 4 5 6 7 8 9) do set "digits=!digits:%%D=!"
+for %%D in (0 1 2 3 4 5 6 7 8 9) do if defined digits set "digits=!digits:%%D=!"
 if defined digits goto bad_number
 exit /b 0
 
