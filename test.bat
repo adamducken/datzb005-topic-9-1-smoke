@@ -12,7 +12,7 @@ call :calculate 3 4 "+" "3+4=7" none || goto fail
 call :calculate 20 8 "-" "20-8=12" 1 2 || goto fail
 call :calculate 3 4 "*" "3*4=12" 1 2 || goto fail
 call :calculate 24 2 "/" "24/2=12" 1 2 || goto fail
-call :calculate 3 99 "2" "3^2=9" none || goto fail
+call :calculate 3 99 "2" "9" none || goto fail
 call :calculate 0 0 "+" "0+0=0" none || goto fail
 call :calculate 8 1 "+" "8+1=9" none || goto fail
 call :calculate 9 1 "+" "9+1=10" 1 0 || goto fail
@@ -23,7 +23,7 @@ call :calculate -100 1 "+" "-100+1=-99" 9 9 || goto fail
 call :calculate -99 -1 "+" "-99+-1=-100" none || goto fail
 call :calculate -7 2 "/" "-7/2=-3" none || goto fail
 call :calculate 0008 -0002 "+" "8+-2=6" none || goto fail
-call :calculate -4 99 "2" "-4^2=16" 1 6 || goto fail
+call :calculate -4 99 "2" "16" 1 6 || goto fail
 call :calculate 2147483647 0 "+" "2147483647+0=2147483647" none || goto fail
 call :calculate -2147483648 0 "+" "-2147483648+0=-2147483648" none || goto fail
 
@@ -54,11 +54,11 @@ rem Drive the real menu: invalid numbers, invalid choices, repeat, then exit.
 )
 mkdir caller || goto fail
 pushd caller || goto fail
-cmd /d /c call "..\10.bat" <"..\input.txt" >"..\output.txt" 2>&1
+powershell -NoProfile -Command "$watch = [Diagnostics.Stopwatch]::StartNew(); cmd /d /c 'call ..\10.bat < ..\input.txt > ..\output.txt 2>&1'; if ($LASTEXITCODE -ne 0 -or $watch.ElapsedMilliseconds -lt 1800) { Write-Error 'Menu failed or exited before the two-second delay'; exit 1 }"
 set "status=!errorlevel!"
 popd
 if not "!status!"=="0" goto fail
-for %%S in ("Ievadiet veselu skaitli." "Nederigs parametrs." "Ievadiet y vai n." "4+5=9" "1. cipars=1" "2. cipars=2" "Programma partrauc darbu!!!" "Bye!!!") do (
+for %%S in ("Ievadiet veselu skaitli." "Nederigs parametrs." "Ievadiet y vai n." "4+5=9" "1. cipars=1" "2. cipars=2" "Programma partrauc darbu." "Bye.") do (
     findstr /l /c:%%S output.txt >nul || goto fail
 )
 findstr /l /c:"3*4=12" output.txt >nul || goto fail
@@ -94,6 +94,9 @@ exit /b 0
 
 :calculate
 set "expected=%~4"
+set "case_first=%~1"
+rem Keep the caret out of CALL arguments, which would double it.
+if "%~3"=="2" set "expected=!case_first!^^2=%~4"
 call "rekinat.bat" "%~1" "%~2" "%~3" >output.txt 2>&1
 if errorlevel 1 exit /b 1
 findstr /l /x /c:"!expected!" output.txt >nul || exit /b 1
@@ -121,6 +124,8 @@ exit /b 0
 :fail
 echo FAIL after !passed! smoke cases. Output:
 if exist output.txt type output.txt
+echo Last expected calculation: !expected!
+if exist log.txt fc /b expected-log.txt log.txt
 echo Test files kept at: %work%
 popd
 exit /b 1

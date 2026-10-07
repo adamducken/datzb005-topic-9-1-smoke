@@ -27,7 +27,7 @@ goto choose
 call "%~dp0rekinat.bat" "!first!" "!second!" "!operation!"
 if errorlevel 1 goto start
 echo.
-echo Programma partrauc darbu!!!
+echo Programma partrauc darbu.
 
 :repeat
 set "again="
@@ -38,7 +38,7 @@ echo Ievadiet y vai n.
 goto repeat
 
 :finish
-echo Bye!!!
+echo Bye.
 pause
 timeout /t 2 /nobreak >nul 2>&1
 rem TIMEOUT needs a console; redirected smoke-test input uses the same delay.

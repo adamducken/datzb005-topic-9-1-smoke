@@ -13,7 +13,9 @@ Windows `.bat` kalkulators atbilstoši `9_1_pr_darbs.pdf`.
 - `test.bat` palaiž abus skriptus pagaidu mapē ar atstarpēm nosaukumā.
   Pārbauda visas operācijas, robežas 9/10/99/100, negatīvus rezultātus,
   sākuma nulles, nederīgu ievadi, dalīšanu ar nulli, precīzu žurnāla saturu,
-  izvēlnes atkārtotu ievadi, atkārtošanu un iziešanu. Atgriež `0`, ja viss izdevies,
+  izvēlnes atkārtotu ievadi, atkārtošanu un divu sekunžu aizturi pirms iziešanas.
+  Aiztures pārbaudei izmanto Windows iebūvēto PowerShell taimeri.
+  Atgriež `0`, ja viss izdevies,
   citādi `1`, un kļūmes gadījumā saglabā pagaidu failus diagnostikai.
 
 Palaist Windows Command Prompt:
